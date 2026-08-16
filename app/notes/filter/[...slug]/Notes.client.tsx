@@ -16,25 +16,16 @@ import { fetchNotes } from '@/lib/api';
 import type { Note } from '@/types/note';
 
 type NotesClientProps = {
-  query: string;
-  page: number;
-  initialData: {
-    notes: Note[];
-    totalPages: number;
-  };
-  tag: string;
+ tag: string;
 };
 
 function NotesClient({
-  query,
-  page,
-  initialData,
-  tag
+ tag
   
 }: NotesClientProps) {
-  const [currentPage, setCurrentPage] = useState(page);
+  const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsOpenModal] = useState(false);
-  const [searchQuery, setSearchQuery] = useState(query);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const [debouncedText] = useDebounce(searchQuery, 300);
 
@@ -42,9 +33,7 @@ function NotesClient({
     queryKey: ['notes', debouncedText, currentPage, tag],
     queryFn: () => fetchNotes(debouncedText, currentPage, tag),
     placeholderData: keepPreviousData,
-    initialData: debouncedText === query && currentPage === page ? initialData : undefined,
    
-    refetchOnMount: false,
   });
 
   
