@@ -24,10 +24,13 @@ export const fetchNoteById = async (noteId: string): Promise<Note> => {
   return response.data;
 };
 
-export const fetchNotes = async (search: string, page: number): Promise<NotesResponse> => {
+export const fetchNotes = async (search: string, page: number, tag: string): Promise<NotesResponse> => {
   const params: Record<string, string | number> = { page };
   if (search) {
     params.search = search;
+  }
+  if (tag) {
+    params.tag = tag;
   }
 
   const response = await axios.get<NotesResponse>(API_URL, {
